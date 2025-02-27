@@ -27,12 +27,12 @@ jobs:
       product_id: ${{ steps.setup.outputs.product_id }}
       engagement_id: ${{ steps.setup.outputs.engagement_id }}
     steps:
-      - name: Checkout repositorio org
+      - name: Checkout repositorio org2
         uses: actions/checkout@v3
         with:
-          repository: skacode/org
+          repository: skacode/org2
           ref: main
-          path: org
+          path: org2
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -41,7 +41,7 @@ jobs:
 
       - name: Ejecutar script de DefectDojo desde el repo org
         id: setup
-        run: python org/.github/scripts/setupdefectdojo.py
+        run: python org2/.github/scripts/setupdefectdojo.py
         env:
           INPUT_PROJECT_NAME: ${{ inputs.project_name }}
           DEFECTDOJO_API_KEY: ${{ secrets.DEFECTDOJO_API_KEY }}
@@ -117,7 +117,7 @@ jobs:
       - name: Upload Dependency Track Report to DefectDojo
         if: success()
         run: |
-          python org/.github/scripts/uploadtodojo.py \
+          python org2/.github/scripts/uploadtodojo.py \
             --scan_type "Dependency Track Finding Packaging Format (FPF) Export" \
             --file_path "${{ github.workspace }}/dependency-track-findings-fixed.json" \
             --engagement_id "${{ needs.SetupDefectDojo.outputs.engagement_id }}" \
@@ -152,7 +152,7 @@ jobs:
       - name: Upload SpotBugs Report to DefectDojo
         if: success()
         run: |
-          python org/.github/scripts/uploadtodojo.py \
+          python org2/.github/scripts/uploadtodojo.py \
             --scan_type "SpotBugs Scan" \
             --file_path "${{ github.workspace }}/${{ inputs.working_directory }}/spotbugsXml.xml" \
             --engagement_id "${{ needs.SetupDefectDojo.outputs.product_id }}" \
@@ -184,7 +184,7 @@ jobs:
       - name: Upload Trivy Report to DefectDojo
         if: always()
         run: |
-          python org/.github/scripts/uploadtodojo.py \
+          python org2/.github/scripts/uploadtodojo.py \
             --scan_type "Trivy Scan" \
             --file_path "${{ github.workspace }}/trivy-report.json" \
             --engagement_id "${{ needs.SetupDefectDojo.outputs.engagement_id }}" \
@@ -249,7 +249,7 @@ jobs:
               
     - name: Upload Trivy Report to DefectDojo
       run: |
-          python org/.github/scripts/uploadtodojo.py \
+          python org2/.github/scripts/uploadtodojo.py \
             --scan_type "Trivy Scan" \
             --file_path "${{ github.workspace }}/trivy-report-2.json" \
             --engagement_id "${{ needs.SetupDefectDojo.outputs.engagement_id }}" \
@@ -320,7 +320,7 @@ jobs:
       - name: Upload OWASP ZAP Report to DefectDojo
         if: success()
         run: |
-          python org/.github/scripts/uploadtodojo.py \
+          python org2/.github/scripts/uploadtodojo.py \
             --scan_type "ZAP Scan" \
             --file_path "${{ github.workspace }}/${{ inputs.working_directory }}/zap-report.xml" \
             --engagement_id "${{ needs.SetupDefectDojo.outputs.engagement_id }}" \
