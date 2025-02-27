@@ -64,11 +64,11 @@ jobs:
         if: env.running == 'false'
         run: |
           if [ "$(docker ps -aq -f name=dependency-track-api)" ]; then
-            docker start dependency-track-api
+            docker start docker-dtrack-apiserver-1
           else
             docker run -d \
-              -p 8081:8080 --name dependency-track-api \
-              dependencytrack/apiserver
+              -p 8081:8080 --name docker-dtrack-apiserver-1 \
+              dependencytrack/apiserver:snapshot
           fi
  
       - name: Esperar a que Dependency-Track esté operativo
